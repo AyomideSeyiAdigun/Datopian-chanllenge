@@ -1,36 +1,34 @@
-Scraping HTML Tables with Nodejs Request and Cheerio
-Node.js: Download and install node.js if you haven’t already.
+WEB SCRAPING USING NODE JS 
 
-Wikipedia API: This is a free API, no key required. Just read through the documentation and get the required link needed for the API call. This is the link I’ll be using — https://en.wikipedia.org/w/api.php? with some parameters that will enable us to perform a search query.
-
+Step 1 :Node.js->Download and install node.js if you haven’t already.
 
 Step 2: Setting up the project
-Create a new directory named node-wiki and run npm init , fill out the required information to initialize the project. You can just do the default settings, for now, it doesn’t matter. But here’s what my package.json file looks like:
-3. Create a file named index.js — this is the file that will house all the code for our application.
+Create a new directory named  web_scraping and run npm init , fill out the required information to initialize the project. You can just do the default settings, for now, it doesn’t matter. But here’s what my package.json file looks like:
 
-4. Now, let’s make our API call and to do this we need a npm module called request — It is a module that simplifies HTTP request in the node. Install request by running:
+step 3: Create a file named index.js — this is the file that will house all the code for our application.
+
+step 4 : let’s make our API call and to do this we need a npm module called request — It is a module that simplifies HTTP request in the node. Install request by running:
 npm install request --save
 npm install --save request-promise
-Next, we pass in our target URL, and request returns a callback function. Our code should look like this:
-
-
-Now let’s start by importing the request-promise and cheerio package in the top of our index.js file:
-
+npm install cheerio 
+ And then import the request-promise and cheerio package in the top of our index.js file:
 const request = require(“request-promise”);
 const cheerio = require(“cheerio”);
 
+step 5: Using the request-promise package we make an HTTP request to get the actual HTML page. We then feed this HTML page into cheerio. Cheerio returns an object that can be used just like the jQuery library on an actual webpage. We assign this to a dollar sign variable ($).
 
+ request("link",(error,response,html)=>{
+        if(!error && response.statusCode==200 ){
+            const $=cheerio.load(html);
+            const datarow =$("table name");
+            }})
+step 6: create a selector. To create:
+1. goto to the website page you want to scrap
+2. left click on the table and select inspect
+3. on your tr right click then select copy and further select copy selector.
+4. if that doesn't work , you can start navigationg from the datarow. for example   "$('.wikitable.sortable > tbody > tr ').text()" works just fine for me , it selects all the 'tr' in 'tbody'.
 
-
-
-
-
-
-
-Understand HTML Table Structure
-In the table above we can see table headers, saying Company, Contact and Country.
-Then in the following rows we have the data of the table itself.
-Now let’s take a look at the HTML code of the table.
+check the table structure below for better understanding 
 <table>
     <tr>
        <th>Country</th>       
@@ -61,21 +59,37 @@ Now let’s take a look at the HTML code of the table.
   </table>
 
 
-We have the HTML <table> element, then we have table row (<tr>) elements inside it. In the first table row element, we have 3 <th> elements, known as table headers. Company, Contact, Country. These are the green/white row we see at the top of the table, the table header, or <th> element’s.
-Now on to the remaining <tr> or table rows, we can see some <td> elements, or table data elements. These contain the table’s data itself.
-So for each table row we have a <tr> element with a corresponding closing element, </tr>.
+We have the HTML <table> element, then we have table row (<thead>) elements inside it. 
+ to select the headers the query will be "$('.wikitable.sortable > thead > tr >td').text()". this will list out all the headers . 
+    
+step 7: Then we use .find(“td”) to find all child elements of td inside this element. This is basically the same as the arrow > CSS child selector we use in our “body > table > tbody > tr” selector. This is going to return an array of three td elements for every table row. But now we can easily see that element number 0 (the first element), is the country name. 
+ $('.wikitable.sortable > tbody > tr ').each((index, element) => {
+                
+                 
+                if (index === 0) return true;
+                const tds = $(element).find('td');
+                const Country = $(tds[0]).text();
+                const Area = $(tds[1]).text();
+                const Population = $(tds[2]).text();
+                const GDP_per_capita= $(tds[3]).text();
+                const Population_density = $(tds[4]).text();
+                const Vehicle_ownership = $(tds[5]).text();
+                const Total_road_deaths = $(tds[7]).text();
+                const Road_deaths_per_Million_Inhabitants = $(tds[8]).text();
 
+                const factsRow ={Country,Year:2018,Area,Population,GDP_per_capita,Population_density,Vehicle_ownership,Total_road_deaths,Road_deaths_per_Million_Inhabitants}
+                
+                scrapedData.push(factsRow);
+            });
+  
+ Now we can scrap the website and get the table. Note this info is stored as an object array. first of all i need to sort using the Road_deaths_per_Million_Inhabitants values 
+  scrapedData.sort(function (x, y) {
+                            return x.Road_deaths_per_Million_Inhabitants-y.Road_deaths_per_Million_Inhabitants
+                             });
+    the code above will help to sort .
+    
+ Next step is converting to csv format
 
-
-Using the request-promise package we make an HTTP request to get the actual HTML page. We then feed this HTML page into cheerio. Cheerio returns an object that can be used just like the jQuery library on an actual webpage. We assign this to a dollar sign variable ($). This way, we can take the loop and the selector we created and tested in Chrome Tools, and use it inside Nodejs.
-Now we can scrape the page without having a browser open, we could even build an API that returns the scraped data. We could also build an automatic periodic scraper that scrapes the table once every hour or day, or any other interval.
-Okay, now let’s move on to the next section, because we still don’t have the scraped data into any data structure!
-
-
-Then we use .find(“td”) to find all child elements of td inside this element. This is basically the same as the arrow > CSS child selector we use in our “body > table > tbody > tr” selector. This is going to return an array of three td elements for every table row. But now we can easily see that element number 0 (the first element), is the company name. The second td element is the contact name, and so on.
-
-
-CREATING CSV FILE
 Approach:
 
 Create an empty array first to store all data of an object in form of rows.
