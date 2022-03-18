@@ -5,7 +5,11 @@ Step 1 :Node.js->Download and install node.js if you haven’t already.
 Step 2: Setting up the project
 Create a new directory named  web_scraping and run npm init , fill out the required information to initialize the project. You can just do the default settings, for now, it doesn’t matter. But here’s what my package.json file looks like:
 
-step 3: Create a file named index.js — this is the file that will house all the code for our application.
+step 3: Create a file named index.js — this is the file that will house all the code for our application 
+npm install  exprees 
+and paste these in your index,js
+const express = require('express');
+const app = express();
 
 step 4 : let’s make our API call and to do this we need a npm module called request — It is a module that simplifies HTTP request in the node. Install request by running:
 npm install request --save
@@ -101,7 +105,7 @@ after mapping each row new line will be added by the join(“\n”) method.
 Below is the sample  implementation of the above approach:
 
 index.js
-<script>
+ 
     const objectToCsv = function (data) {
 
         const csvRows = [];
@@ -155,12 +159,35 @@ index.js
     // Data passed as parameter 
     const csvData = objectToCsv(data);
     console.log(csvData); 
-</script>
+ 
 Output: 
 
 "firstname,lastname,age
 \"geeks\",\"org\",\"12\"
 \"devendra\",\"salunke\",\"31\"
+ 
+ 
+ DISPLAY 
+ To display datas html table .
+ step 1. install ejs 
+ npm install ejs
+ 
+ 2. create a folder named 'views'
+ 
+ 3. inside the folder , create a file 'index.ejs'\
+ 
+ 4. Navigate back to the index.js and add the foolowing codes for importing ejs 
+ var path = require('path');
+ app.set('views', path.join(__dirname, 'views'));
+ app.set('view engine','ejs');
+ 
+ 5. then you can render your ejs and pass 'props'/data to your ejs file 
+ app.get('/', function (req, res) {
+ res.render('index',{data:ScrapeddData}
+ });
+ 
+ 
+  
 
 References:
 1.Write a program to convert an array of objects to a CSV string that contains only the columns specified using JavaScript: https://www.geeksforgeeks.org/write-a-program-to-convert-an-array-of-objects-to-a-csv-string-that-contains-only-the-columns-specified-using-javascript/
