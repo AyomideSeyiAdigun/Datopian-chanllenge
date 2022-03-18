@@ -5,6 +5,7 @@ const cheerio = require('cheerio');
 var path = require('path');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine','ejs');
+const ObjectsToCsv = require('objects-to-csv')
  
 
  
@@ -81,8 +82,11 @@ app.get('/', function (req, res) {
 
 
         //@end formating scrapedDataa into a csv file
-
-
+        
+         //@start creating csv file 
+         const csv = new ObjectsToCsv(scrapedData);
+         csv.toDisk('./Facts.csv', { append: true })
+         
         res.render('index',{
                             myTitle: Caption,
                             figures:scrapedData
