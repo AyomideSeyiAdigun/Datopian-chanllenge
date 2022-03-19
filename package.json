@@ -1,0 +1,22 @@
+{
+  "name": "datopian_test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "adigun,ayomide seyi",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "cheerio": "^1.0.0-rc.10",
+    "csvtojson": "^2.0.10",
+    "ejs": "^3.1.6",
+    "express": "^4.17.3",
+    "lodash": "^4.17.21",
+    "node-csv": "^0.1.2",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6"
+  }
+}

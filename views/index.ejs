@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web scraping</title>
+     
+    <style>
+    #factTable {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      
+      #factTable td, #factTable th {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+      
+      #factTable tr:nth-child(even){background-color: #f2f2f2;}
+      
+      #factTable tr:hover {background-color: #ddd;}
+      
+      #factTable th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #6A505E;
+        color: white;
+      }
+      h2 { color:#855085; font-family: 'Open Sans Condensed', sans-serif; font-size: 40px; font-weight: 700; line-height: 48px; margin: 0 0 24px; padding: 0 30px; text-align: center; text-transform: uppercase; }
+      </style>
+    
+</head>
+<body>
+    
+    <h2><%= myTitle %></h2>
+    <table  id="factTable">
+        <thead>
+            <tr>
+                <th>Country</th>
+                <th>Year</th>
+                <th>Area</th>
+                <th>Population</th>
+                <th>GDP per capita</th>
+                <th>Population density</th>
+                <th>Vehicle ownership</th>
+                <th>Total road deaths</th>
+                <th> Road deaths per Million Inhabitants</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+                <% figures.forEach((std,i) => {%>
+                    <tr>
+                    <td><%= std.Country%></td>
+                    <td><%= std.Year%></td>
+                    <td><%= std.Area%></td>
+                    <td><%= std.Population%></td>
+                    <td><%= std.GDP_per_capita%></td>
+                    <td><%= std.Population_density%></td>
+                    <td><%= std.Vehicle_ownership%></td>
+                    <td><%= std.Total_road_deaths%></td>
+                    <td><%= std. Road_deaths_per_Million_Inhabitants%></td>
+                </tr>
+                <%})%>
+         
+        </tbody>
+       
+    </table>
+ 
+     
+</body>
+
+  
+</html>
